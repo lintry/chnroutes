@@ -15,8 +15,7 @@ def generate_ovpn(_):
 #!/bin/bash -
 
 export PATH="/bin:/sbin:/usr/sbin:/usr/bin"
-#OLDGW=$(ip route show 0/0 | sed -e 's/^default//')
-OLDGW=`netstat -nr | grep '^default' | grep -v 'ppp' | sed 's/default *\([0-9\.]*\) .*/\1/' | sed '/^$/d'`
+OLDGW=$(ip route show 0/0 | sed -e 's/^default//')
 ip -batch - <<EOF
 """
     downscript_header = """\
@@ -116,7 +115,7 @@ def generate_mac(_):
 #!/bin/sh
 export PATH="/bin:/sbin:/usr/sbin:/usr/bin"
 
-OLDGW=`netstat -nr | grep '^default' | grep -v 'ppp' | sed 's/default *\\([0-9\.]*\\) .*/\\1/'`
+OLDGW=`netstat -nr | grep '^default' | grep -v 'ppp' | sed 's/default *\\([0-9\.]*\\) .*/\\1/' | sed '/^$/d'`
 
 if [ ! -e /tmp/pptp_oldgw ]; then
     echo "${OLDGW}" > /tmp/pptp_oldgw
