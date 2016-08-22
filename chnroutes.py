@@ -15,8 +15,8 @@ def generate_ovpn(_):
 #!/bin/bash -
 
 export PATH="/bin:/sbin:/usr/sbin:/usr/bin"
-OLDGW=$(ip route show 0/0 | sed -e 's/^default//')
-
+#OLDGW=$(ip route show 0/0 | sed -e 's/^default//')
+OLDGW=`netstat -nr | grep '^default' | grep -v 'ppp' | sed 's/default *\([0-9\.]*\) .*/\1/' | sed '/^$/d'`
 ip -batch - <<EOF
 """
     downscript_header = """\
